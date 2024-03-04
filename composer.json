@@ -1,0 +1,30 @@
+{
+  "name": "thicha0/laravel-documentation-commands",
+  "description": "A command to generate a documentation of commands of your project",
+  "type": "library",
+  "license": "MIT",
+  "authors": [
+      {
+          "name": "Thibault Chatelain",
+          "email": "tib.chatelain@gmail.com"
+      }
+  ],
+  "autoload": {
+      "psr-4": {
+          "Thicha0\\LaravelDocumentationCommands\\": "src/"
+      }
+  },
+  "extra": {
+        "laravel": {
+            "providers": [
+                "Thicha0\\LaravelDocumentationCommands\\LaravelDocumentationCommandsServiceProvider"
+            ]
+        }
+  },
+  "minimum-stability": "stable",
+  "prefer-stable": true,
+  "require": {
+    "php": "^8.0",
+    "laravel/framework": "^10.0"
+  }
+}
