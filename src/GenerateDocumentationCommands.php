@@ -4,6 +4,7 @@ namespace Thicha0\LaravelDocumentationCommands;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;
+use ReflectionClass;
 
 class GenerateDocumentationCommands extends Command
 {
@@ -46,13 +47,8 @@ class GenerateDocumentationCommands extends Command
             // Get the folder name where the command is located
             $folderName = substr($className, 0, strrpos($className, '\\'));
 
-            $abstract = [
-                '\app\Console\Commands\TenantCommand',
-                '\app\Console\Commands\ExecCommand',
-            ];
-            // Todo with $testClass     = new ReflectionClass('TestClass'); $testClass->isAbstract()
-
-            if (!in_array($className, $abstract)) {
+            $reflectionClass = new ReflectionClass($className);
+            if (!$reflectionClass->isAbstract()) {
                 $command = resolve($className);
 
                 if ($command instanceof Command) {
