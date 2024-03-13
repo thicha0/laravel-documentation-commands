@@ -20,7 +20,7 @@ class GenerateDocumentationCommands extends Command
         $this->info('Found ' . count($customCommands) . ' custom commands.');
 
         // Render the Blade template 'documentation-commands' with the customCommands data
-        $html = view('documentation-commands', ['customCommands' => $customCommands])->render();
+        $html = view('laravel-documentation-commands::documentation-commands', ['customCommands' => $customCommands])->render();
 
         // Define the path where you want to save the HTML file
         $htmlFilePath = public_path('documentation-commands.html');

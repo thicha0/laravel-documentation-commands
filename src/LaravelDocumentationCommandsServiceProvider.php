@@ -14,5 +14,6 @@ class LaravelDocumentationCommandsServiceProvider extends ServiceProvider
               GenerateDocumentationCommands::class,
             ]);
         }
+        $this->loadViewsFrom(__DIR__.'/views', 'laravel-documentation-commands');
     }
 }
