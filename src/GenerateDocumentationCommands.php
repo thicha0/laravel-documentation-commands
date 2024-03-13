@@ -9,7 +9,7 @@ class GenerateDocumentationCommands extends Command
 {
     protected $signature = 'generate:doc-commands';
 
-    protected $description = 'Génère un fichier HTML contenant la liste des commandes personnalisées';
+    protected $description = 'Generate a HTML documentation of your custom commands';
 
     public function handle()
     {
@@ -22,7 +22,7 @@ class GenerateDocumentationCommands extends Command
         $html = view('documentation-commands', ['customCommands' => $customCommands])->render();
 
         // Define the path where you want to save the HTML file
-        $htmlFilePath = public_path('documentation-commandes.html');
+        $htmlFilePath = public_path('documentation-commands.html');
 
         // Save the rendered HTML to the file
         file_put_contents($htmlFilePath, $html);
@@ -50,6 +50,7 @@ class GenerateDocumentationCommands extends Command
                 '\app\Console\Commands\TenantCommand',
                 '\app\Console\Commands\ExecCommand',
             ];
+            // Todo with $testClass     = new ReflectionClass('TestClass'); $testClass->isAbstract()
 
             if (!in_array($className, $abstract)) {
                 $command = resolve($className);
