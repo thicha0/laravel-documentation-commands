@@ -3,6 +3,7 @@
 namespace Thicha0\LaravelDocumentationCommands;
 
 use Illuminate\Console\Command;
+use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Support\Facades\File;
 use ReflectionClass;
 
@@ -36,6 +37,10 @@ class GenerateDocumentationCommands extends Command
         $cronCommands = $this->extractCommandsAndCron();
 
         $customCommands = [];
+
+        if (!File::isDirectory($directory)) {
+            return $customCommands;
+        }
 
         foreach (File::allFiles($directory) as $file) {
             $className = str_replace(
@@ -71,23 +76,17 @@ class GenerateDocumentationCommands extends Command
 
     private function extractCommandsAndCron()
     {
-        $scheduleDefinition = file_get_contents(app_path('Console/Kernel.php'));
-
-        $matches = [];
-        $pattern = '/\$schedule->command\(\'([^\']+)\'(?:\s*\.\s*\$[a-zA-Z0-9_]+\->[a-zA-Z0-9_]+)*\)\s*->(\w+)(?:\(([^)]*)\))?/';
-        preg_match_all($pattern, $scheduleDefinition, $matches, PREG_SET_ORDER);
-
         $commandsAndCron = [];
 
-        // Extract commands defined directly in schedule() method
-        foreach ($matches as $match) {
-            $commandName = $match[1];
-            $method = $match[2];
-            $parameter = $match[3];
+        // Read the events registered in the scheduler (routes/console.php, bootstrap/app.php or legacy Console Kernel)
+        foreach (app(Schedule::class)->events() as $event) {
+            if (!$event->command || !preg_match('/[\'"]?artisan[\'"]?\s+(\S+)/', $event->command, $match)) {
+                continue;
+            }
+
             $commandsAndCron[] = [
-                'command' => $commandName,
-                'method' => $method,
-                'parameter' => $parameter,
+                'command' => $match[1],
+                'expression' => $event->expression,
             ];
         }
 
