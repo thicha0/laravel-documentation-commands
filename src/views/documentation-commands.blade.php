@@ -171,7 +171,7 @@
                             <p>{{ $command['description'] }}</p>
                             @if ($command['cron'] !== null)
                             <h3>Cron</h3>
-                            <p>{{ $command['cron']['method'] }}({{ $command['cron']['parameter'] }})</p>
+                            <p>{{ $command['cron']['expression'] }}</p>
                             @endif
                         </div>
                     @endforeach
